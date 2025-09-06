@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Activity</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+
+    header {
+      padding: 16px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .search-bar {
+      background: #1c1c1e;
+      margin: 0 16px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 16px;
+      color: #888;
+    }
+
+    .section-title {
+      font-weight: 600;
+      font-size: 13px;
+      color: #aaa;
+      margin: 24px 16px 8px;
+      text-transform: uppercase;
+    }
+
+    .transaction {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background-color: #2c2c2e;
+      background-size: cover;
+      background-position: center;
+      margin-right: 12px;
+      flex-shrink: 0;
+      color: #fff;
+    }
+
+    .info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .info .title {
+      font-weight: 600;
+      font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .info .subtitle {
+      font-size: 13px;
+      color: #888;
+    }
+
+    .amount {
+      font-weight: 600;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+
+    .amount.positive {
+      color: #16c784;
+    }
+
+    .amount.negative {
+      color: #fff;
+    }
+
+    .amount.gray {
+      color: #555;
+      text-decoration: line-through;
+    }
+
+    .footer-space {
+      height: 70px;
+    }
+    .pending-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2c2c2e;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+
+.dots {
+  font-size: 20px;
+  color: #fff;
+  line-height: 1;
+}
+
+  </style>
+</head>
+<body>
+
+  <header style="display: flex; justify-content: space-between; align-items: center;">
+  Activity
+  <button onclick="window.location.href='index.html'" style="background: none; border: none; font-size: 24px; color: #fff; cursor: pointer;">✖</button>
+</header>
+
+
+<div class="search-bar" style="display: flex; align-items: center; gap: 10px;">
+  <img src="search-893.png" alt="Search" style="width: 18px; height: 18px;">
+  <span>Search Transactions</span>
+</div>
+
+
+  <div class="section-title">Pending</div>
+
+ <div class="transaction">
+  <div class="icon pending-icon">
+    <span class="dots">•••</span>
+  </div>
+  <div class="info">
+    <div class="title">2 Pending Card Transactions</div>
+    <div class="subtitle">Waiting for confirmation</div>
+  </div>
+</div>
+
+
+  <div class="section-title">Completed</div>
+
+  <div class="transaction">
+    <div class="icon" style="background-image: url('ingles.png'); background-color: #e53935;"></div>
+    <div class="info">
+      <div class="title">Ingles Markets</div>
+      <div class="subtitle">💳 Cash Card</div>
+    </div>
+    <div class="amount negative">- $12.43</div>
+  </div>
+
+ 
+
+  <div class="transaction">
+    <div class="icon" style="background-color: #3b82f6; display: flex; align-items: center; justify-content: center;">
+      <strong style="font-size: 18px;">S</strong>
+    </div>
+    <div class="info">
+      <div class="title">Savage</div>
+      <div class="subtitle">Replied ❤️</div>
+    </div>
+    <div class="amount negative">- $15.00</div>
+  </div>
+
+  
+ 
+
+  <div class="transaction">
+    <div class="icon" style="background-color: #3b82f6; display: flex; align-items: center; justify-content: center;">
+      <strong style="font-size: 18px;">S</strong>
+    </div>
+    <div class="info">
+      <div class="title">Masy6768</div>
+      <div class="subtitle">Replied 🔥</div>
+    </div>
+    <div class="amount negative">- $185.00</div>
+  </div>
+
+
+  <div class="transaction">
+    <div class="icon" style="background-image: url('avatar-blue.png'); background-color: #333;"></div>
+    <div class="info">
+      <div class="title">K. (Hidden)</div>
+      <div class="subtitle">Yesterday</div>
+    </div>
+    <div class="amount negative">- $100.00</div>
+  </div>
+
+  <div class="transaction">
+    <div class="icon" style="background-color: #16c784; display: flex; align-items: center; justify-content: center;">
+      <span style="font-size: 20px;">💲</span>
+    </div>
+    <div class="info">
+      <div class="title">Add Cash</div>
+      <div class="subtitle">MasterCard Debit 4138</div>
+    </div>
+    <div class="amount positive">+ $604.00</div>
+  </div>
+
+  <div class="footer-space"></div>
+
+  <script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const name = localStorage.getItem("recipientName");
+    const amount = localStorage.getItem("displayAmount");
+
+    if (name && amount) {
+      const sectionTitles = document.querySelectorAll(".section-title");
+      const completedTitle = Array.from(sectionTitles).find(el => el.textContent.trim() === "Completed");
+
+      if (completedTitle) {
+        const firstCompletedTransaction = completedTitle.nextElementSibling;
+
+        const newTransaction = document.createElement("div");
+        newTransaction.className = "transaction";
+        newTransaction.innerHTML = `
+          <div class="icon" style="background-color: #3b82f6; display: flex; align-items: center; justify-content: center;">
+            <strong style="font-size: 18px;">${name.charAt(0).toUpperCase()}</strong>
+          </div>
+          <div class="info">
+            <div class="title">${name}</div>
+            <div class="subtitle">Just Now</div>
+          </div>
+          <div class="amount negative">- $${parseFloat(amount).toFixed(2)}</div>
+        `;
+
+        // Insert new transaction right after the "Completed" title
+        completedTitle.parentNode.insertBefore(newTransaction, firstCompletedTransaction);
+      }
+    }
+  });
+</script>
+
+
+</body>
+</html>
