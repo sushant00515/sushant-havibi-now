@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CashApp Clone</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "SF Pro Display", Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      padding-top: 60px;
+    }
+
+    /* Balance */
+    .amount {
+      font-size: 70px;
+      font-weight: 700;
+      margin: 35px 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .amount.animate {
+      transform: scale(1.1);
+      opacity: 0.9;
+    }
+
+    /* Currency */
+    .currency-select {
+      background: none;
+      color: #666;
+      font-size: 22px;
+      margin-bottom: 120px;
+      border: none;
+      outline: none;
+      text-align: center;
+    }
+
+    /* Keypad */
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin-bottom: 40px;
+      width: 80%;
+    }
+    .keypad button {
+      font-size: 30px;
+      background: none;
+      color: #fff;
+      width: 100%;
+      height: 70px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.2s ease;
+    }
+    .keypad button:active {
+      transform: scale(0.9);
+      opacity: 0.6;
+    }
+
+    /* Actions (fixed above footer) */
+    .actions {
+      position: absolute;
+      bottom: 90px; /* sits just above footer */
+      display: flex;
+      gap: 15px;
+      width: 85%;
+    }
+    .actions button {
+      flex: 1;
+      font-size: 20px;
+      font-weight: 600;
+      border: none;
+      border-radius: 35px;
+      padding: 16px 0;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .actions button:active {
+      transform: scale(0.97);
+      opacity: 0.8;
+    }
+    .actions .request {
+      background: #222;
+      color: #fff;
+    }
+    .actions .pay {
+      background: #00c244;
+      color: #000;
+    }
+
+    /* Footer */
+    .footer {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      font-size: 20px;
+      color: #666;
+    }
+    .footer span {
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .footer span:hover {
+      color: #fff;
+    }
+     .nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #1c1c1e;
+  display: flex;
+  justify-content: space-around;
+  padding: 14px 0;
+  border-top: 1px solid #2c2c2e;
+}
+
+.nav-item {
+  flex: 1;
+  text-align: center;
+  color: #fff;
+}
+
+.nav-icon {
+  width: 32px;  /* bigger size */
+  height: 32px;
+  display: inline-block;
+}
+
+.balance-preview {
+  font-size: 18px;
+  font-weight: bold;
+  color: #aaa; /* gray color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+  </style>
+</head>
+<body>
+  <div class="amount" id="amount-display">$0</div>
+
+  <select class="currency-select">
+    <option value="USD">USD</option>
+  </select>
+
+  <div class="keypad">
+    <button onclick="appendKey('1')">1</button>
+    <button onclick="appendKey('2')">2</button>
+    <button onclick="appendKey('3')">3</button>
+    <button onclick="appendKey('4')">4</button>
+    <button onclick="appendKey('5')">5</button>
+    <button onclick="appendKey('6')">6</button>
+    <button onclick="appendKey('7')">7</button>
+    <button onclick="appendKey('8')">8</button>
+    <button onclick="appendKey('9')">9</button>
+    <button onclick="appendKey('.')">.</button>
+    <button onclick="appendKey('0')">0</button>
+    <button onclick="backspace()">⌫</button>
+  </div>
+
+  <div class="actions">
+    <button class="request">Request</button>
+    <button class="pay" onclick="handlePay()">Pay</button>
+  </div>
+
+  <div class="nav">
+  <div class="nav-item active balance-preview" id="nav-balance">$0</div>
+
+  <div class="nav-item">
+    <img src="card.png" alt="Card" class="nav-icon" />
+  </div>
+
+  <div class="nav-item">
+    <img src="Untitled design (3).png" alt="Home" class="nav-icon" />
+  </div>
+
+  <div class="nav-item">
+    <img src="search.png" alt="Search" class="nav-icon" />
+  </div>
+
+  <div class="nav-item">
+    <a href="recent.html">
+      <img src="recent.png" alt="Recent" class="nav-icon" />
+    </a>
+  </div>
+</div>
+
+
+  <script>
+    let amount = "0";
+    const display = document.getElementById("amount-display");
+
+    function animateDisplay() {
+      display.classList.add("animate");
+      setTimeout(() => display.classList.remove("animate"), 200);
+    }
+
+    function appendKey(key) {
+      if (amount === "0" && key !== ".") amount = "";
+      if (key === "." && amount.includes(".")) return;
+      amount += key;
+      updateDisplay();
+      animateDisplay();
+    }
+
+    function backspace() {
+      amount = amount.slice(0, -1);
+      if (amount === "") amount = "0";
+      updateDisplay();
+      animateDisplay();
+    }
+
+    function updateDisplay() {
+      display.textContent = "$" + amount;
+    }
+
+    function handlePay() {
+      localStorage.setItem("displayAmount", amount);
+      display.style.transform = "scale(0.8)";
+      display.style.opacity = "0";
+      setTimeout(() => {
+        window.location.href = "testofsending.html";
+      }, 300);
+    }
+  </script>
+
+  
+</body>
+</html>

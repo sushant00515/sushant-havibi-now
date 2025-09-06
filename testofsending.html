@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Send Money</title>
+  <style>
+    :root {
+      --bg: #000;
+      --primary: #fff;
+      --secondary: #aaa;
+      --highlight: #00c244;
+      --input-bg: #1a1a1a;
+      --button-bg: #222;
+      --border: #333;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--primary);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 18px;
+    }
+
+    .top-left {
+      color: var(--primary);
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .amount {
+      font-size: 24px;
+    }
+
+    .pay-button {
+      background-color: var(--highlight);
+      color: var(--primary);
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .pay-button:hover {
+      opacity: 0.85;
+    }
+
+    .inline-input-group {
+      display: flex;
+      align-items: center;
+      margin: 16px 0;
+    }
+
+    .inline-input-group label {
+      width: 40px;
+      margin-right: 10px;
+      font-size: 16px;
+      color: var(--secondary);
+    }
+
+    .inline-input-group input {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--input-bg);
+      color: var(--primary);
+      font-size: 16px;
+    }
+
+    .inline-input-group input::placeholder {
+      color: #777;
+    }
+
+    .send-as {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .send-as button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: var(--button-bg);
+      color: var(--primary);
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .send-as button.active,
+    .send-as button:hover {
+      background-color: var(--highlight);
+      color: #000;
+    }
+
+    .suggested {
+      margin-top: 20px;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 14px;
+      color: var(--primary);
+      background: #444;
+      overflow: hidden;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .user-info {
+      flex-grow: 1;
+    }
+
+    .user-info div {
+      font-size: 16px;
+      color: var(--primary);
+    }
+
+    .user-info small {
+      color: var(--secondary);
+    }
+
+    .user-check {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--highlight);
+      cursor: pointer;
+    }
+
+    .user-icon {
+      margin-left: auto;
+      font-size: 18px;
+      color: var(--secondary);
+    }
+
+    .suggested-loader {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+    }
+
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border: 4px solid var(--secondary);
+      border-top: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .loader-text {
+      margin-top: 10px;
+      color: var(--secondary);
+      font-size: 14px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .modal-box {
+      background-color: #1c1c1e;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 20px 20px 0 0;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .modal-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      background: #444;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+      color: white;
+      overflow: hidden;
+    }
+
+    .modal-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .modal-title {
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .modal-text {
+      color: #aaa;
+      font-size: 14px;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .modal-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 16px;
+      border: none;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+
+    .view-profile {
+      background: transparent;
+      color: #00ff7f;
+    }
+
+    .confirm-btn {
+      background-color: #00ff7f;
+      color: black;
+    }
+
+    .cancel-btn {
+      background: transparent;
+      color: white;
+    }
+
+    #loading-spinner {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    #loading-spinner .spinner {
+      border: 4px solid #00d632;
+      border-top: 4px solid transparent;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-left">&times;</div>
+    <div class="amount" id="amount-display">$0</div>
+    <button class="pay-button">Pay</button>
+  </div>
+
+  <div class="inline-input-group">
+    <label for="to">To</label>
+    <input id="to" type="text" placeholder="Name, $Cashtag, Phone, Email" />
+  </div>
+
+  <div class="inline-input-group">
+    <label for="for">For</label>
+    <input id="for" type="text" placeholder="Add a note" />
+  </div>
+
+  <div class="send-as">
+    <button class="active">Cash</button>
+    <button>Gift Card</button>
+    <button>Stock</button>
+  </div>
+
+  <div class="suggested">
+    <div id="suggested-loader" class="suggested-loader">
+      <div class="spinner"></div>
+    </div>
+
+    <div id="suggested-input-user"></div>
+
+    <div id="suggested-users"></div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmation-modal" class="modal">
+    <div class="modal-box">
+      <div id="modal-avatar" class="modal-avatar"></div>
+      <div class="modal-title">Are you sure?</div>
+      <div class="modal-text">
+        <strong id="modal-name">Name</strong> is not in your contacts and you've never exchanged money before.
+      </div>
+      <button class="modal-btn view-profile">View Profile</button>
+      <button class="modal-btn confirm-btn" onclick="confirmAndRedirect()">Confirm</button>
+      <button class="modal-btn cancel-btn">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Spinner overlay -->
+  <div id="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+
+  <script>
+    const users = [
+      { name: "Alexa", handle: "$Alexadawn22" },
+      { name: "Ryan", handle: "$ryan9282" },
+      { name: "Safera4", handle: "$saferabinzayed8" },
+      { name: "Alex", handle: "$alex394" },
+      { name: "MARTO", handle: "$marto349" },
+      { name: "Senoy78", handle: "$senorita78" },
+      { name: "Ally7", handle: "$alission349" },
+      { name: "Lucia", handle: "$lucia20" },
+      { name: "Rin", handle: "$rin292" },
+      { name: "Sergio", handle: "$sergio20" },
+      { name: "David", handle: "$david6" },
+      { name: "Andres", handle: "$andres82w3" }
+    ];
+
+    const toInput = document.getElementById('to');
+    const suggestedLoader = document.getElementById('suggested-loader');
+    const suggestedUsers = document.getElementById('suggested-users');
+    const inputUser = document.getElementById('suggested-input-user');
+
+    function renderUsers(filter = "") {
+      suggestedUsers.innerHTML = "";
+      let matched = [];
+      let unmatched = [];
+
+      users.forEach(user => {
+        const match =
+          user.name.toLowerCase().includes(filter) ||
+          user.handle.toLowerCase().includes(filter);
+        (match ? matched : unmatched).push(user);
+      });
+
+      const ordered = matched.concat(unmatched);
+
+      if (filter && matched.length === 0) {
+        const avatarLetter = filter.charAt(0).toUpperCase();
+        inputUser.innerHTML = `
+          <div class="user">
+            <input type="checkbox" class="user-check" />
+            <div class="avatar">${avatarLetter}</div>
+            <div class="user-info">
+              <div>${filter}</div>
+              <small>Send to this user</small>
+            </div>
+            <div class="user-icon">👤</div>
+          </div>`;
+        inputUser.style.display = 'block';
+      } else {
+        inputUser.style.display = 'none';
+        ordered.forEach(user => {
+          const avatarLetter = user.name.charAt(0).toUpperCase();
+          const useImage = Math.random() < 0.4; // 40% chance for random image
+          const avatarContent = useImage
+            ? `<img src="https://i.pravatar.cc/100?u=${user.name}${Date.now()}" alt="${user.name}" />`
+            : avatarLetter;
+
+          const el = document.createElement('div');
+          el.className = 'user';
+          el.innerHTML = `
+            <input type="checkbox" class="user-check" />
+            <div class="avatar">${avatarContent}</div>
+            <div class="user-info">
+              <div>${user.name}</div>
+              <small>${user.handle}</small>
+            </div>
+            <div class="user-icon">👤</div>`;
+          suggestedUsers.appendChild(el);
+        });
+      }
+    }
+
+    let typingTimer;
+    toInput.addEventListener('input', () => {
+      const query = toInput.value.trim().toLowerCase();
+      suggestedLoader.style.display = 'flex';
+      suggestedUsers.style.display = 'none';
+      inputUser.style.display = 'none';
+
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(() => {
+        suggestedLoader.style.display = 'none';
+        renderUsers(query);
+        suggestedUsers.style.display = 'block';
+      }, 600);
+    });
+
+    renderUsers();
+
+    const modal = document.getElementById('confirmation-modal');
+    const cancelBtn = modal.querySelector('.cancel-btn');
+    const modalAvatar = document.getElementById('modal-avatar');
+    const modalName = document.getElementById('modal-name');
+
+    document.addEventListener('change', e => {
+      if (e.target.classList.contains('user-check') && e.target.checked) {
+        const user = e.target.closest('.user');
+        const name = user.querySelector('.user-info div').textContent.trim();
+        const avatarEl = user.querySelector('.avatar');
+
+        // Copy the avatar (image or letter) from the selected user into the modal
+        if (avatarEl.querySelector('img')) {
+          modalAvatar.innerHTML = avatarEl.innerHTML;
+        } else {
+          modalAvatar.textContent = avatarEl.textContent;
+          modalAvatar.style.background = "#444";
+        }
+
+        modalName.textContent = name;
+        modal.style.display = 'flex';
+      }
+    });
+
+    cancelBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+      document.querySelectorAll('.user-check').forEach(input => (input.checked = false));
+    });
+
+    const fakeAmount = localStorage.getItem("displayAmount") || "1";
+    document.getElementById("amount-display").textContent = `$${fakeAmount}`;
+
+    function confirmAndRedirect() {
+      modal.style.display = "none";
+      const spinner = document.getElementById("loading-spinner");
+      spinner.style.display = "flex";
+
+      const recipientName = toInput.value.trim() || "Someone";
+      localStorage.setItem("recipientName", recipientName);
+
+      setTimeout(() => {
+        window.location.href = "completed.html";
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

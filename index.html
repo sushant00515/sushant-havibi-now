@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sushant Cashapp</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1c1c1e">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      font-size: 16px;
+    }
+    .container {
+      padding: 20px;
+    }
+    .section, .tax-section {
+      background-color: #1c1c1e;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0 0 8px;
+    }
+    .balance {
+      font-size: 36px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .btn {
+      flex: 1;
+      background-color: #2c2c2e;
+      color: #fff;
+      padding: 14px;
+      text-align: center;
+      border-radius: 15px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .tax-section-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .file-now-btn {
+      background-color: #16c784;
+      padding: 14px 20px;
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: bold;
+      font-size: 14px;
+      color: #fff;
+      text-transform: uppercase;
+      width: fit-content;
+      margin-top: 10px;
+    }
+    .tax-text {
+      flex: 1;
+    }
+    .file-icon {
+      font-size: 48px;
+      margin-left: 15px;
+    }
+    .cards-wrapper {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+    }
+    .card {
+      background-color: #1c1c1e;
+      border-radius: 20px;
+      padding: 20px;
+      flex: 1;
+    }
+    .graph svg {
+      width: 100%;
+      height: 50px;
+    }
+    .card p {
+      margin: 4px 0;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .more-ways {
+      background-color: #1c1c1e;
+      padding: 20px;
+      border-radius: 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      text-align: left;
+    }
+   .nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #1c1c1e;
+  display: flex;
+  justify-content: space-around;
+  padding: 14px 0;
+  border-top: 1px solid #2c2c2e;
+}
+
+.nav-item {
+  flex: 1;
+  text-align: center;
+  color: #fff;
+}
+
+.nav-icon {
+  width: 32px;  /* bigger size */
+  height: 32px;
+  display: inline-block;
+}
+
+.balance-preview {
+  font-size: 18px;
+  font-weight: bold;
+  color: #aaa; /* gray color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+    .notification {
+      background-color: white;
+      color: black;
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-size: 12px;
+      margin-left: 5px;
+      font-weight: bold;
+    }
+    .icon {
+      margin-right: 10px;
+      font-size: 18px;
+    }
+    .bitcoin h3 {
+      color: #4da6ff;
+    }
+    .stocks h3 {
+      color: #b266ff;
+    }
+    .pfp {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-image: url('channels4_profile (0-00-00-00).png');
+  background-size: cover;
+  background-position: center;
+}
+
+  .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+.profile-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #333;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+   <div class="header">
+  <h2>Money</h2>
+  <img src="png-clipart-mohammed-bin-zayed-al-nahyan-abu-dhabi-al-nahyan-family-sheikh-president-of-the-united-arab-emirates-year-of-zayed-abu-dhabi-sultan-bin-zayed-bin-sultan-al-nahyan-thumbnail.png" alt="Profile" class="profile-icon" />
+</div>
+
+
+    <div class="section">
+      <h3>Cash Balance</h3>
+      <div class="balance" id="main-balance">$3874329.24</div>
+
+      <div class="btn-group">
+  <div class="btn" id="add-cash-btn">Add Cash</div>
+
+  <div class="btn" onclick="window.location.href='balance.html'">Cash Out</div>
+</div>
+    </div>
+
+    <div class="tax-section">
+      <div class="tax-section-content">
+        <div class="tax-text">
+          <h3>Free tax filing</h3>
+          <p style="color: #aaa; font-size: 14px; margin: 0;">Fast, easy, 100% free</p>
+          <div class="file-now-btn">FILE NOW</div>
+        </div>
+        <div class="file-icon">📁</div>
+      </div>
+    </div>
+
+    <div class="cards-wrapper">
+      <div class="card bitcoin">
+        <h3><span class="icon">₿</span>Bitcoin</h3>
+        <div class="graph">
+          <svg viewBox="0 0 100 50" preserveAspectRatio="none">
+            <polyline fill="none" stroke="#4da6ff" stroke-width="2" points="0,40 10,20 20,30 30,25 40,35 50,25 60,20 70,30 80,27 90,29 100,28" />
+          </svg>
+        </div>
+        <p>$0.98</p>
+        <p style="color: #16c784;">↑ 0.93% today</p>
+      </div>
+      <div class="card stocks">
+        <h3><span class="icon">📈</span>Stocks</h3>
+        <div class="graph">
+          <svg viewBox="0 0 100 50" preserveAspectRatio="none">
+            <polyline fill="none" stroke="#b266ff" stroke-width="2" points="0,30 10,30 20,30 30,25 40,20 50,25 60,30 70,35 80,40 90,42 100,45" />
+          </svg>
+        </div>
+        <p>$0.99</p>
+        <p style="color: #ff4d4d;">↓ 1.00% today</p>
+      </div>
+    </div>
+<br>
+    <div class="more-ways">More ways to add money</div>
+  </div>
+
+<div class="nav">
+  <div class="nav-item active balance-preview" id="nav-balance">$0</div>
+
+  <div class="nav-item">
+    <img src="card.png" alt="Card" class="nav-icon" />
+  </div>
+
+  <div class="nav-item">
+    <img src="Untitled design (3).png" alt="Home" class="nav-icon" />
+  </div>
+
+  <div class="nav-item">
+    <img src="search.png" alt="Search" class="nav-icon" />
+  </div>
+
+  <div class="nav-item">
+    <a href="recent.html">
+      <img src="recent.png" alt="Recent" class="nav-icon" />
+    </a>
+  </div>
+</div>
+
+
+
+  </div>
+  <script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const balanceEl = document.getElementById("main-balance");
+    if (!balanceEl) return;
+
+    let currentBalance = parseFloat(balanceEl.textContent.replace(/[^\d.]/g, '')) || 0;
+    const deductAmount = parseFloat(localStorage.getItem("lastSentAmount")) || 0;
+
+    if (deductAmount > 0) {
+      const finalBalance = currentBalance - deductAmount;
+
+      // Animate balance change
+      const steps = 30;
+      const stepAmount = (currentBalance - finalBalance) / steps;
+      let count = 0;
+
+      const interval = setInterval(() => {
+        currentBalance -= stepAmount;
+        balanceEl.textContent = `$${currentBalance.toFixed(2)}`;
+        count++;
+
+        if (count >= steps) {
+          clearInterval(interval);
+          balanceEl.textContent = `$${finalBalance.toFixed(2)}`;
+        }
+      }, 30); // 30ms per step, ~1 second total
+
+      // Clear the value so it only happens once
+      localStorage.removeItem("lastSentAmount");
+    }
+  });
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => console.log("Service Worker registered"));
+  }
+</script>
+<script>
+function formatToK(amount) {
+  if (amount >= 1_000_000) {
+    return `$${(amount / 1_000_000).toFixed(1)}M`; // millions
+  } else if (amount >= 1_000) {
+    return `$${(amount / 1_000).toFixed(0)}k`; // thousands
+  } else {
+    return `$${amount.toFixed(0)}`;
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const balanceEl = document.getElementById("main-balance");
+  const navBalance = document.getElementById("nav-balance");
+  if (!balanceEl || !navBalance) return;
+
+  function updateNavBalance() {
+    let currentBalance = parseFloat(balanceEl.textContent.replace(/[^\d.]/g, '')) || 0;
+    navBalance.textContent = formatToK(currentBalance);
+  }
+
+  // Run immediately
+  updateNavBalance();
+
+  // Run again after animation finishes (in case balance changes)
+  setInterval(updateNavBalance, 1000);
+});
+</script>
+<script>
+function animateBalanceChange(balanceEl, oldBalance, newBalance) {
+  const steps = 30; // smoothness
+  const stepAmount = (newBalance - oldBalance) / steps;
+  let count = 0;
+
+  const interval = setInterval(() => {
+    oldBalance += stepAmount;
+    balanceEl.textContent = `$${oldBalance.toFixed(2)}`;
+    count++;
+    if (count >= steps) {
+      clearInterval(interval);
+      balanceEl.textContent = `$${newBalance.toFixed(2)}`;
+    }
+  }, 30);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const balanceEl = document.getElementById("main-balance");
+  const navBalance = document.getElementById("nav-balance");
+  const addCashBtn = document.getElementById("add-cash-btn");
+  if (!balanceEl || !navBalance || !addCashBtn) return;
+
+  // Get current balance number
+  function getBalance() {
+    return parseFloat(balanceEl.textContent.replace(/[^\d.]/g, '')) || 0;
+  }
+
+  // Update nav preview
+  function updateNavBalance() {
+    let currentBalance = getBalance();
+    navBalance.textContent = formatToK(currentBalance);
+  }
+
+  // Handle Add Cash
+  addCashBtn.addEventListener("click", () => {
+    const oldBalance = getBalance();
+    const addAmount = 1000; // you can set a prompt or input for amount
+    const newBalance = oldBalance + addAmount;
+
+    animateBalanceChange(balanceEl, oldBalance, newBalance);
+    setTimeout(updateNavBalance, 1200); // update nav after animation
+  });
+});
+</script>
+
+</body>
+</html>
